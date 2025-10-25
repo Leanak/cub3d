@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/24 12:40:05 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:34:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,19 @@ typedef struct s_window
 {
 	char				**map;
 	int					fd;
-	int					true_len;
+	int					map_size;
 	int					nbr_line;
 	t_texture			*texture;
 }						t_window;
 
 // Map utils
-char					**read_map(char *filename, t_window *game);
-int						count_line(int fd);
 
 // Map parsing
-int						map_parsing(char **map, t_window *game);
+int						size_map(t_window *game, char *filename, int count);
+int						get_map(t_window *game, char **line);
 
 // Get texture
-int						get_texture(t_window *game);
+int						get_texture(t_window *game, char *filename);
 
 // Utils
 int						ft_lstlen(t_texture *texture);
@@ -63,6 +62,7 @@ int						ft_lstlen(t_texture *texture);
 void					free_split(char **split);
 void					free_texture(t_texture *texture);
 void					free_all(t_window *game);
+void					free_gnl_split_line(char **split, char *line);
 
 // Divers
 void					print_map(char **map);

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:48:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/24 14:38:55 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:51:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ t_texture	*create_node(char **split)
 {
 	t_texture	*new_node;
 
+	printf("CREATE NODE : %s\n", split[0]);
 	if (!split || !split[0] || !split[1])
+	{
+		printf("BABYYY\n");
 		return (NULL);
+	}
 	new_node = malloc(sizeof(t_texture));
 	if (!new_node)
 		return (NULL);
@@ -35,6 +39,7 @@ t_texture	*create_node(char **split)
 		new_node->type = C;
 	else
 	{
+		free(new_node);
 		printf("ICI ? \n");
 		return (NULL);
 	}
@@ -48,6 +53,7 @@ int	add_texture(t_texture **head, char **split)
 	t_texture	*new_node;
 	t_texture	*tmp;
 
+	printf("ADD : %s\n", split[0]);
 	new_node = create_node(split);
 	if (!new_node)
 		return (0);
@@ -63,11 +69,28 @@ int	add_texture(t_texture **head, char **split)
 	return (1);
 }
 
-int	get_texture(t_window *game)
+int	skip_empty_lines(t_window *game, int *count, char **line)
 {
-	int count;
-	char *line;
-	char **tmp;
+	*line = get_next_line(game->fd);
+	if (!*line)
+		return (0);
+	while (!ft_strncmp(*line, "\n", 1))
+	{
+		free(*line);
+		*line = get_next_line(game->fd);
+		if (!*line)
+			return (0);
+		(*count)++;
+	}
+	get_next_line(-1);
+	return (1);
+}
+
+int	get_texture(t_window *game, char *filename)
+{
+	int		count;
+	char	*line;
+	char	**tmp;
 
 	count = 0;
 	while (1)
@@ -75,52 +98,26 @@ int	get_texture(t_window *game)
 		line = get_next_line(game->fd);
 		count++;
 		if (!line)
-		{
-			printf("HEIN ????\n");
 			break ;
-		}
 		if (!ft_strncmp(line, "\n", 1))
 		{
-			printf("WTFFF??\n");
+			free(line);
 			continue ;
 		}
 		tmp = ft_split(line, ' ');
 		if (!tmp || tmp[0][0] == '1')
-		{
-			get_next_line(-1);
-			printf("OLD EL PASSO\n");
-			free_split(tmp);
-			if (line)
-				free(line);
-			return (0);
-		}
+			return (free_gnl_split_line(tmp, line), 0);
 		if (!add_texture(&game->texture, tmp))
-		{
-			get_next_line(-1);
-			printf("SUREMENT ICI LOL\n");
-			return (free_split(tmp), free(line), 0);
-		}
+			return (free_gnl_split_line(tmp, line), 0);
 		if (ft_lstlen(game->texture) == 6)
 		{
-			if (!ft_strncmp(line = get_next_line(game->fd), "\n", 1))
-			{
-				while (!ft_strncmp(line, "\n", 1))
-				{
-					free(line);
-					line = get_next_line(game->fd);
-					count++;
-				}
-			}
-			free(line);
-			free_split(tmp);
-			return (count);
+			if (!skip_empty_lines(game, &count, &line) || !size_map(game, filename, count))
+				return (free_gnl_split_line(tmp, line), 0);
+			get_map(game, &line);
+			return (free_gnl_split_line(tmp, line), count);
 		}
-		get_next_line(-1);
 		free_split(tmp);
 		free(line);
 	}
-	printf("GIRLLLL ? \n");
-	//free_split(tmp);
-	//free(line);
 	return (0);
 }

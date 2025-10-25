@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:35:29 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/01 17:38:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/25 20:07:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	i = 0;
 	j = 0;
 	s3 = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!s3 || !s2)
+	if (!s3)
 		return (NULL);
 	while (s1[i])
 	{
