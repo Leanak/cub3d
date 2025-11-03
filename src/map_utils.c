@@ -6,44 +6,74 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:47:01 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/25 19:00:02 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:56:05 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	count_line(int fd)
+char	*strdup_without_n(const char *src)
 {
-	int		count;
-	char	*line;
+	char	*dest;
+	int		i;
 
-	count = 0;
-	while (1)
+	i = 0;
+	dest = malloc((ft_strlen(src) + 1) * sizeof(char));
+	if (!dest)
+		return (NULL);
+	else
 	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		count++;
-		free(line);
+		while (src[i] && src[i] != '\n')
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
 	}
-	close(fd);
-	return (count);
+	return (dest);
 }
 
-void	create_map(char **map, int fd)
+int	count_true_line(char **map)
 {
+	int	i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
+}
+
+int	size_map(t_window *game, char *filename, int count)
+{
+	printf("SIZE MAP\n");
+	printf("MY COUNT : %d\n", count);
+	int		fd2;
+	int		size;
 	int		i;
 	char	*line;
+	(void)filename;
 
-	line = get_next_line(fd);
-	i = 0;
-	while (line)
+	i = -1;
+	size = 0;
+	fd2 = open(filename, O_RDONLY);
+	if (fd2 < 0)
+		return (0);
+	while (++i < count)
 	{
-		map[i] = line;
-		line = get_next_line(fd);
-		i++;
+		line = get_next_line(fd2);
+		printf("EACH LINE: %s\n", line);
+		free(line);
 	}
-	map[i] = NULL;
-	close(fd);
+	line = get_next_line(fd2);
+	while (line && ft_strncmp(line, "\n", 1))
+	{
+		printf("HEYYY\n");
+		free(line);
+		line = get_next_line(fd2);
+		size++;
+	}
+	close(fd2);
+	game->map_size = size;
+	printf("MY SIZE : %d\n", game->map_size);
+	return (1);
 }
-

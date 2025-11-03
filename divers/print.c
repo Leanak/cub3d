@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:54:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/25 12:16:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/27 12:03:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_map(char **map)
 		printf("%s\n", map[i]);
 		i++;
 	}
-	printf("FIN DE MAP\n");
+	printf("FIN DE MAP PRINT\n");
 }
 
 void	print_texture(t_texture *texture)

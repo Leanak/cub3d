@@ -6,22 +6,39 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:48:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/25 19:51:56 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:21:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+int	check_double(t_texture *texture)
+{
+	printf("CHECK DOUBLE\n");
+	t_texture	*tmp;
+	t_texture	*next;
+
+	tmp = texture;
+	while (tmp)
+	{
+		next = tmp->next;
+		while (next)
+		{
+			if (next->type == tmp->type)
+				return (0);
+			next = next->next;
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 t_texture	*create_node(char **split)
 {
 	t_texture	*new_node;
 
-	printf("CREATE NODE : %s\n", split[0]);
 	if (!split || !split[0] || !split[1])
-	{
-		printf("BABYYY\n");
 		return (NULL);
-	}
 	new_node = malloc(sizeof(t_texture));
 	if (!new_node)
 		return (NULL);
@@ -38,12 +55,8 @@ t_texture	*create_node(char **split)
 	else if (!ft_strncmp(split[0], "C", 1))
 		new_node->type = C;
 	else
-	{
-		free(new_node);
-		printf("ICI ? \n");
-		return (NULL);
-	}
-	new_node->path = ft_strdup(split[1]);
+		return (free(new_node), NULL);
+	new_node->path = strdup_without_n(split[1]);
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -53,7 +66,6 @@ int	add_texture(t_texture **head, char **split)
 	t_texture	*new_node;
 	t_texture	*tmp;
 
-	printf("ADD : %s\n", split[0]);
 	new_node = create_node(split);
 	if (!new_node)
 		return (0);
@@ -69,8 +81,36 @@ int	add_texture(t_texture **head, char **split)
 	return (1);
 }
 
+/* int	skip_empty_lines(t_window *game, int *count, char *line)
+{
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+	line = get_next_line(game->fd);
+	if (!line)
+		return (0);
+	while (!ft_strncmp(line, "\n", 1))
+	{
+		free(line);
+		line = get_next_line(game->fd);
+		printf("LINEEE : %s\n", line);
+		if (!line)
+			return (0);
+		(*count)++;
+	}
+	get_next_line(-1);
+	return (1);
+} */
+
 int	skip_empty_lines(t_window *game, int *count, char **line)
 {
+	if (*line)
+	{
+		free(*line);
+		*line = NULL;
+	}
 	*line = get_next_line(game->fd);
 	if (!*line)
 		return (0);
@@ -78,6 +118,7 @@ int	skip_empty_lines(t_window *game, int *count, char **line)
 	{
 		free(*line);
 		*line = get_next_line(game->fd);
+		printf("LINEEE : %s\n", *line);
 		if (!*line)
 			return (0);
 		(*count)++;
@@ -86,7 +127,7 @@ int	skip_empty_lines(t_window *game, int *count, char **line)
 	return (1);
 }
 
-int	get_texture(t_window *game, char *filename)
+int	get_texture_and_map(t_window *game, char *filename)
 {
 	int		count;
 	char	*line;
@@ -113,11 +154,16 @@ int	get_texture(t_window *game, char *filename)
 		{
 			if (!skip_empty_lines(game, &count, &line) || !size_map(game, filename, count))
 				return (free_gnl_split_line(tmp, line), 0);
-			get_map(game, &line);
-			return (free_gnl_split_line(tmp, line), count);
+			if (!check_double(game->texture) || !format_rgb(game->texture) 
+				|| !get_map(game, &line))
+				return (free_gnl_split_line(tmp, line), 0);
+			if (!map_parsing(game))
+				return (free_gnl_split_line(tmp, line), 0);
+			return (free_gnl_split_line(tmp, line), 1);
 		}
 		free_split(tmp);
 		free(line);
 	}
+	get_next_line(-1);
 	return (0);
 }

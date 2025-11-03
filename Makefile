@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/24 11:18:46 by lenakach         ###   ########.fr        #
+#    Updated: 2025/10/29 13:50:20 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 #Sources
 SRC = $(SRC_DIR)/main.c $(SRC_DIR)/map_utils.c $(SRC_DIR)/map_parsing.c \
 		$(SRC_DIR)/get_texture.c $(SRC_DIR)/utils.c $(SRC_DIR)/free.c \
+		$(SRC_DIR)/map_spaces.c $(SRC_DIR)/map_walls.c $(SRC_DIR)/texture_utils.c \
 
 DIVERS = $(DIV_DIR)/print.c
 SRCS = $(SRC) $(DIVERS)
