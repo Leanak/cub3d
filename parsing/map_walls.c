@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 13:23:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/27 13:24:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:09:02 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,18 @@ int	middle_line_wall(char **map)
 		if (map[i][len - 1] == '\n')
 			len--;
 		if (map[i][0] != '1' || map[i][len - 1] != '1')
-		{
-			printf("HERE ??? %d\n", i);
 			return (0);
-		}
 		i++;
 	}
 	return (1);
 }
 
-int	check_walls(char **map)
+int	check_walls(t_mapping *game)
 {
-	int	lines;
-
-	lines = count_true_line(map);
-	if (!side_line_wall(map[0]) || !side_line_wall(map[lines - 1]))
+	game->lines = count_true_line(game->map);
+	if (!side_line_wall(game->map[0]) || !side_line_wall(game->map[game->lines - 1]))
 		return (0);	
-	if (!middle_line_wall(map))
+	if (!middle_line_wall(game->map))
 		return (0);
 	return (1);
 }

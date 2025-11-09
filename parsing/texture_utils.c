@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 13:49:11 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/03 15:14:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/08 10:30:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ int	is_alldigit(char *str)
 	return (1);
 }
 
-int	format_rgb(t_texture *texture)
+int	format_rgb(t_texture_tmp *texture)
 {
-	printf("FORMAT RGB\n");
-	t_texture	*tmp;
+	t_texture_tmp	*tmp;
 	char	**split;
 	int			i;
 
@@ -66,6 +65,5 @@ int	format_rgb(t_texture *texture)
 		}
 		tmp = tmp->next;
 	}
-	//free_split(split);
 	return (1);
 }

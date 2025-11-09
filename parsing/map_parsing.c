@@ -6,23 +6,24 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 14:44:35 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/03 20:22:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:08:52 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	map_parsing(t_window *game)
+int	map_parsing(t_mapping *game)
 {
 	if (!change_spaces(game->map))
 		return (0);
-	if (!check_walls(game->map))
+	if (!check_walls(game))
 		return (0);
-	//que 6 caracteres possibles
+	if (check_elements(game) != 1)
+		return (0);
 	return (1);
 }
 
-int	get_map(t_window *game, char **line)
+int	get_map(t_mapping *game, char **line)
 {
 	int	i;
 	
