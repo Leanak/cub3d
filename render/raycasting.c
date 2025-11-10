@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:12:59 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 18:44:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/10 13:56:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,28 +90,50 @@ void	calculate_wall_height(t_window *game, t_ray *ray)
 void    draw_wall_column(t_window *game, t_ray *ray, int x)
 {
     int y;
+    t_img   *texture;
+    int tex_x;
+    double  wall_x;
+    double  step;
+    double  tex_pos;
+    int tex_y;
     int color;
     
-    // 1. Dessine le PLAFOND (du haut jusqu'au début du mur)
+    // Choisir la texture selon l'orientation du mur
+    if (ray->side == 0 && ray->ray_dir_x > 0)
+        texture = game->texture->east;
+    else if (ray->side == 0 && ray->ray_dir_x < 0)
+        texture = game->texture->west;
+    else if (ray->side == 1 && ray->ray_dir_y > 0)
+        texture = game->texture->south;
+    else
+        texture = game->texture->north;
+    
+    if (ray->side == 0)
+        wall_x = game->player->y + ray->per_wall_dist * ray->ray_dir_y;
+    else
+        wall_x = game->player->x + ray->per_wall_dist * ray->ray_dir_x;
+    wall_x -= floor(wall_x);  
+    tex_x = (int)(wall_x * (double)texture->width);
+    if (ray->side == 0 && ray->ray_dir_x > 0)
+        tex_x = texture->width - tex_x - 1;
+    if (ray->side == 1 && ray->ray_dir_y < 0)
+        tex_x = texture->width - tex_x - 1;
     y = 0;
     while (y < ray->draw_start)
     {
         my_mlx_pixel_put(game->img_ray, x, y, game->texture->ceiling);
         y++;
     }
-    
-    // 2. Dessine le MUR
-    if (ray->side == 0)
-        color = 0xFF0000;
-    else
-        color = 0xFFFF00;    
+    step = 1.0 * texture->height / ray->line_height;
+    tex_pos = (ray->draw_end - HEIGHT_DISPLAY / 2 + ray->line_height / 2) * step;
     while (y <= ray->draw_end)
     {
+        tex_y = (int)tex_pos & (texture->height - 1);
+        tex_pos += step;
+        color = *(int *)(texture->addr + (tex_y * texture->line_len + tex_x * (texture->bpp / 8)));
         my_mlx_pixel_put(game->img_ray, x, y, color);
         y++;
     }
-    
-    // 3. Dessine le SOL (de la fin du mur jusqu'en bas)
     while (y < HEIGHT_DISPLAY)
     {
         my_mlx_pixel_put(game->img_ray, x, y, game->texture->floor);
@@ -124,14 +146,14 @@ void    cast_all_rays(t_window *game)
     int x;
     t_ray ray;
     
-    // Initialise l'image à noir (ou n'importe quelle couleur de test)
+    /* // Initialise l'image à noir (ou n'importe quelle couleur de test)
     int i = 0;
     while (i < WIDTH_DISPLAY * HEIGHT_DISPLAY)
     {
         ((int *)game->img_ray->addr)[i] = 0x000000; // Noir
         i++;
     }
-    
+     */
     x = 0;
     while (x < WIDTH_DISPLAY)
     {

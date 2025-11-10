@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/08 12:20:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:21:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	main(int ac, char **av)
 	if (!init_game(&parsed_map, av[1]))
 		return (1);
 	if (!get_texture_and_map(parsed_map, av[1]))
+	{
 		return (free_all(parsed_map), 1);
+	}
 	else
 	{
 		if (!start_cub(parsed_map))

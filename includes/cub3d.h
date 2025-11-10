@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 19:05:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:18:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <unistd.h>
+#include <sys/time.h>
 
 // Variables globales
 # ifndef M_PI
@@ -129,6 +130,8 @@ typedef struct s_window
 {
 	void					*mlx;
 	void					*mlx_win;
+	double	delta_time;
+	double	last_frame_time; 
 	t_img					*img_ray;
 	t_player				*player;
 	t_mapping				*parsed_map;

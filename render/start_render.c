@@ -6,11 +6,18 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:07:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 18:53:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:20:54 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	close_window(t_window *game)
+{
+	(void)game;
+	exit (0);
+	return (0);
+}
 
 void	render_frame(t_window *game)
 {
@@ -18,8 +25,22 @@ void	render_frame(t_window *game)
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_ray->img, 0, 0);
 }
 
+#include <sys/time.h>
+
+double get_time(void)
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec + tv.tv_usec / 1000000.0);
+}
+
 int	loop_hook(t_window *game)
 {
+	double	current_time;
+
+	current_time = get_time();
+	game->delta_time = current_time - game->last_frame_time;
+	game->last_frame_time = current_time;
 	move_player(game);
 	render_frame(game);
 	return (0);
@@ -46,8 +67,6 @@ void	draw_floor_ceiling(t_window *game)
 	}
 }
 
-
-
 int	init_window(t_window *window, t_mapping	*parsed_map)
 {
 	window->mlx = NULL;
@@ -73,9 +92,12 @@ int	init_window(t_window *window, t_mapping	*parsed_map)
 	window->player = malloc(sizeof(t_player));
 	if (!window->player)
 		return (0);
+	ft_bzero(window->player, sizeof(t_player));
 	window->parsed_map = parsed_map;
 	if (!load_all_texture(window))
 		return (0);
+	window->delta_time = 0;
+	window->last_frame_time = get_time();
 	return (1);
 }
 
@@ -92,7 +114,8 @@ int	start_cub(t_mapping *parsed_map)
 		return (0);
 	mlx_loop_hook(game->mlx, loop_hook, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_press, game);
-	mlx_hook(game->mlx_win, 3, 1L << 0, key_release, game);
+	mlx_hook(game->mlx_win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_loop(game->mlx);
 	return (1);
 }
