@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:12:59 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/10 13:56:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:01:38 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,14 +146,6 @@ void    cast_all_rays(t_window *game)
     int x;
     t_ray ray;
     
-    /* // Initialise l'image à noir (ou n'importe quelle couleur de test)
-    int i = 0;
-    while (i < WIDTH_DISPLAY * HEIGHT_DISPLAY)
-    {
-        ((int *)game->img_ray->addr)[i] = 0x000000; // Noir
-        i++;
-    }
-     */
     x = 0;
     while (x < WIDTH_DISPLAY)
     {

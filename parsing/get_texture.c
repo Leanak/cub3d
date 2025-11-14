@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:48:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/10 15:26:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:15:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,6 @@ int	check_double(t_texture_tmp *texture)
 	return (1);
 }
 
-t_texture_tmp	*create_node(char **split)
-{
-	t_texture_tmp	*new_node;
-
-	if (!split || !split[0] || !split[1])
-		return (NULL);
-	new_node = malloc(sizeof(t_texture_tmp));
-	if (!new_node)
-		return (NULL);
-	if (!ft_strncmp(split[0], "NO", 2))
-		new_node->type = NO;
-	else if (!ft_strncmp(split[0], "SO", 2))
-		new_node->type = SO;
-	else if (!ft_strncmp(split[0], "WE", 2))
-		new_node->type = WE;
-	else if (!ft_strncmp(split[0], "EA", 2))
-		new_node->type = EA;
-	else if (!ft_strncmp(split[0], "F", 1))
-		new_node->type = F;
-	else if (!ft_strncmp(split[0], "C", 1))
-		new_node->type = C;
-	else
-		return (free(new_node), NULL);
-	new_node->path = strdup_without_n(split[1]);
-	new_node->next = NULL;
-	return (new_node);
-}
-
 int	add_texture(t_texture_tmp **head, char **split)
 {
 	t_texture_tmp	*new_node;
@@ -80,7 +52,7 @@ int	add_texture(t_texture_tmp **head, char **split)
 	return (1);
 }
 
-int	skip_empty_lines(t_mapping *game, int *count, char **line)
+/* int	skip_empty_lines(t_mapping *game, int *count, char **line)
 {
 	if (*line)
 	{
@@ -99,6 +71,36 @@ int	skip_empty_lines(t_mapping *game, int *count, char **line)
 		(*count)++;
 	}
 	get_next_line(-1);
+	return (1);
+} */
+
+int	skip_empty_lines(t_mapping *game, int *count, char *line)
+{
+	line = get_next_line(game->fd);
+	if (!line)
+		return (0);
+	while (!ft_strncmp(line, "\n", 1))
+	{
+		free(line);
+		line = get_next_line(game->fd);
+		if (!line)
+			return (0);
+		(*count)++;
+	}
+	get_next_line(-1);
+	return (1);
+}
+
+int	texture_is_full(t_mapping *game, int *count, char *line, char *filename)
+{
+	if (!skip_empty_lines(game, count, line) || !size_map(game,
+		filename, *count))
+			return (0);
+	if (!check_double(game->texture) || !format_rgb(game->texture)
+		|| !get_map(game, &line))
+			return (0);
+	if (!map_parsing(game))
+		return (0);
 	return (1);
 }
 
@@ -127,7 +129,13 @@ int	get_texture_and_map(t_mapping *game, char *filename)
 			return (free_gnl_split_line(tmp, line), 0);
 		if (ft_lstlen(game->texture) == 6)
 		{
-			if (!skip_empty_lines(game, &count, &line) || !size_map(game,
+			if (!texture_is_full(game, &count, line, filename))
+			{
+				printf("HEREEE\n");
+				return (free_gnl_split_line(tmp, line), 0);
+			}
+			return (free_gnl_split_line(tmp, line), 1);
+			/* if (!skip_empty_lines(game, &count, &line) || !size_map(game,
 					filename, count))
 				return (free_gnl_split_line(tmp, line), 0);
 			if (!check_double(game->texture) || !format_rgb(game->texture)
@@ -135,7 +143,7 @@ int	get_texture_and_map(t_mapping *game, char *filename)
 				return (free_gnl_split_line(tmp, line), 0);
 			if (!map_parsing(game))
 				return (free_gnl_split_line(tmp, line), 0);
-			return (free_gnl_split_line(tmp, line), 1);
+			return (free_gnl_split_line(tmp, line), 1); */
 		}
 		free_split(tmp);
 		free(line);
@@ -143,4 +151,3 @@ int	get_texture_and_map(t_mapping *game, char *filename)
 	get_next_line(-1);
 	return (0);
 }
-

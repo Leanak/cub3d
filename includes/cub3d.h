@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/10 15:18:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:11:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <math.h>
+# include <sys/time.h>
 # include <unistd.h>
-#include <sys/time.h>
 
 // Variables globales
 # ifndef M_PI
@@ -130,8 +130,8 @@ typedef struct s_window
 {
 	void					*mlx;
 	void					*mlx_win;
-	double	delta_time;
-	double	last_frame_time; 
+	double					delta_time;
+	double					last_frame_time;
 	t_img					*img_ray;
 	t_player				*player;
 	t_mapping				*parsed_map;
@@ -166,6 +166,7 @@ int							get_texture_and_map(t_mapping *game,
 int							format_rgb(t_texture_tmp *texture);
 int							is_alldigit(char *str);
 int							split_len(char **split);
+t_texture_tmp				*create_node(char **split);
 
 // Utils
 int							ft_lstlen(t_texture_tmp *texture);

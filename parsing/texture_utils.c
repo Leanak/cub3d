@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 13:49:11 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/08 10:30:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:04:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,32 @@ int	format_rgb(t_texture_tmp *texture)
 		tmp = tmp->next;
 	}
 	return (1);
+}
+
+t_texture_tmp	*create_node(char **split)
+{
+	t_texture_tmp	*new_node;
+
+	if (!split || !split[0] || !split[1])
+		return (NULL);
+	new_node = malloc(sizeof(t_texture_tmp));
+	if (!new_node)
+		return (NULL);
+	if (!ft_strncmp(split[0], "NO", 2))
+		new_node->type = NO;
+	else if (!ft_strncmp(split[0], "SO", 2))
+		new_node->type = SO;
+	else if (!ft_strncmp(split[0], "WE", 2))
+		new_node->type = WE;
+	else if (!ft_strncmp(split[0], "EA", 2))
+		new_node->type = EA;
+	else if (!ft_strncmp(split[0], "F", 1))
+		new_node->type = F;
+	else if (!ft_strncmp(split[0], "C", 1))
+		new_node->type = C;
+	else
+		return (free(new_node), NULL);
+	new_node->path = strdup_without_n(split[1]);
+	new_node->next = NULL;
+	return (new_node);
 }

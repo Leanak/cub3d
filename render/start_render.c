@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:07:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/10 15:20:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:09:25 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	render_frame(t_window *game)
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_ray->img, 0, 0);
 }
 
-#include <sys/time.h>
-
 double get_time(void)
 {
     struct timeval tv;
@@ -44,27 +42,6 @@ int	loop_hook(t_window *game)
 	move_player(game);
 	render_frame(game);
 	return (0);
-}
-
-void	draw_floor_ceiling(t_window *game)
-{
-	int	x;
-	int	y;
-	
-	y = 0;
-	while (y < HEIGHT_DISPLAY)
-	{
-		x = 0;
-		while (x < WIDTH_DISPLAY)
-		{
-			if (y < HEIGHT_DISPLAY/2) // Moitie haute = plafond
-				my_mlx_pixel_put(game->img_ray, x, y, game->texture->ceiling);
-			else
-				my_mlx_pixel_put(game->img_ray, x, y, game->texture->floor);
-			x++;
-		}
-		y++;
-	}
 }
 
 int	init_window(t_window *window, t_mapping	*parsed_map)

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 16:34:11 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/05 14:08:04 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:03:10 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_elements(t_mapping *game)
 	int	j;
 	int	count;
 	int	len;
-	
+
 	i = -1;
 	count = 0;
 	while (++i < game->lines)
@@ -29,8 +29,9 @@ int	check_elements(t_mapping *game)
 			len--;
 		while (++j < len)
 		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || game->map[i][j] == 'E' || game->map[i][j] == 'W')
-					count++;
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
+				count++;
 		}
 	}
 	return (count);

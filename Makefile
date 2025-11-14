@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/11/09 18:53:47 by lenakach         ###   ########.fr        #
+#    Updated: 2025/11/11 18:02:45 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ MLX = $(MINILIBX_DIR)/libmlx.a
 MLX_FLAGS = -L$(MINILIBX_DIR) -lmlx -L/usr/libX11 -lXext -lX11 -lm -lz
 
 #Sources
-PARS = $(PARS_DIR)/main.c $(PARS_DIR)/map_utils.c $(PARS_DIR)/map_parsing.c \
+PARSING = $(PARS_DIR)/main.c $(PARS_DIR)/map_utils.c $(PARS_DIR)/map_parsing.c \
 		$(PARS_DIR)/get_texture.c $(PARS_DIR)/utils.c $(PARS_DIR)/free.c \
 		$(PARS_DIR)/map_spaces.c $(PARS_DIR)/map_walls.c $(PARS_DIR)/texture_utils.c \
 		$(PARS_DIR)/elements_utils.c
@@ -42,8 +42,7 @@ RENDER = $(RENDER_DIR)/start_render.c $(RENDER_DIR)/player_init.c $(RENDER_DIR)/
 			$(RENDER_DIR)/texture_init.c $(RENDER_DIR)/raycasting.c $(RENDER_DIR)/key.c \
 			$(RENDER_DIR)/move_player.c
 
-DIVERS = $(DIV_DIR)/print.c
-PARSING = $(PARS) $(DIVERS)
+#PARSING = $(PARS)
 ALL = $(PARSING) $(RENDER)
 OBJS = $(ALL:.c=.o)
 
