@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:07:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 18:53:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:59:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,24 @@ void	render_frame(t_window *game)
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_ray->img, 0, 0);
 }
 
+double	get_time(void)
+{
+	double	current_time;
+	struct timeval	tv;
+	gettimeofday(&tv, NULL);
+	current_time = tv.tv_sec + tv.tv_usec * 1e-6;
+	return (current_time);
+}
+
 int	loop_hook(t_window *game)
 {
+	double	current_time;
+
+	current_time = get_time();
+	game->delta_time = current_time - game->old_time;
+	game->old_time = current_time;
+	if (game->delta_time > 0.1)
+		game->delta_time = 0.1;
 	move_player(game);
 	render_frame(game);
 	return (0);
@@ -45,8 +61,6 @@ void	draw_floor_ceiling(t_window *game)
 		y++;
 	}
 }
-
-
 
 int	init_window(t_window *window, t_mapping	*parsed_map)
 {
@@ -76,6 +90,8 @@ int	init_window(t_window *window, t_mapping	*parsed_map)
 	window->parsed_map = parsed_map;
 	if (!load_all_texture(window))
 		return (0);
+	window->old_time = get_time();
+	window->delta_time = 0;
 	return (1);
 }
 

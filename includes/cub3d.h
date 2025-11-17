@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 19:05:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:54:11 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <math.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 // Variables globales
@@ -133,6 +134,8 @@ typedef struct s_window
 	t_player				*player;
 	t_mapping				*parsed_map;
 	t_texture				*texture;
+	double					delta_time;
+	double					old_time;
 }							t_window;
 
 // Map parsing

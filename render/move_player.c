@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:53:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 19:05:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:59:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	move_player(t_window *game)
 {
 	t_player *p;
-	double move_speed = 0.66;
-	double	rot_speed = 0.03;
+	double move_speed = 4 * game->delta_time;
+	double	rot_speed = 2.5 * game->delta_time;
 	double new_x;
 	double new_y;
 	double	old_dir_x;
