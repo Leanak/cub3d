@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:15:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/17 12:54:11 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:08:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ typedef struct s_player
 {
 	double					x;
 	double					y;
-	double dir_x; // en radians, dans quelle dir le player regarde
+	double					dir_x;
 	double					dir_y;
-	double plane_x; // sa camera, ou field of view
+	double					plane_x;
 	double					plane_y;
 	int						move_forward;
 	int						move_backward;

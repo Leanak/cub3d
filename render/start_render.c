@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:07:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/17 12:59:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:13:15 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int	loop_hook(t_window *game)
 	current_time = get_time();
 	game->delta_time = current_time - game->old_time;
 	game->old_time = current_time;
-	if (game->delta_time > 0.1)
-		game->delta_time = 0.1;
+	if (game->delta_time > 0.05)
+		game->delta_time = 0.05;
+	if (game->delta_time < 0.001)
+		game->delta_time = 0.016; 
 	move_player(game);
 	render_frame(game);
 	return (0);
@@ -108,7 +110,7 @@ int	start_cub(t_mapping *parsed_map)
 		return (0);
 	mlx_loop_hook(game->mlx, loop_hook, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_press, game);
-	mlx_hook(game->mlx_win, 3, 1L << 0, key_release, game);
+	mlx_hook(game->mlx_win, 3, 1L << 1, key_release, game);
 	mlx_loop(game->mlx);
 	return (1);
 }
