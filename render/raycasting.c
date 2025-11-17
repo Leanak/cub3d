@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:12:59 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/09 18:44:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:18:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@ void	init_ray(t_window *game, t_ray *ray, int x)
 	ray->ray_dir_y = game->player->dir_y + game->player->plane_y * ray->camera_x;
 	ray->map_x = (int)game->player->x;
 	ray->map_y = (int)game->player->y;
-	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
-	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
+	if (ray->ray_dir_x == 0)
+		ray->delta_dist_x = 1e30;
+	else
+		ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
+	
+	if (ray->ray_dir_y == 0)
+		ray->delta_dist_y = 1e30;
+	else
+		ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
 	ray->hit = 0;
 	if (ray->ray_dir_x < 0)
 	{
@@ -100,11 +107,22 @@ void    draw_wall_column(t_window *game, t_ray *ray, int x)
         y++;
     }
     
-    // 2. Dessine le MUR
+    // 2. Dessine le MUR avec des couleurs différentes selon l'orientation
     if (ray->side == 0)
-        color = 0xFF0000;
+    {
+        if (ray->step_x > 0)
+            color = 0xFF0000;  // Rouge - mur Est
+        else
+            color = 0x880000;  // Rouge foncé - mur Ouest
+    }
     else
-        color = 0xFFFF00;    
+    {
+        if (ray->step_y > 0)
+            color = 0xFFFF00;  // Jaune - mur Sud
+        else
+            color = 0x888800;  // Jaune foncé - mur Nord
+    }
+    
     while (y <= ray->draw_end)
     {
         my_mlx_pixel_put(game->img_ray, x, y, color);

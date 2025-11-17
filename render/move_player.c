@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:53:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/17 13:06:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:16:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	move_player(t_window *game)
 		p->dir_y = old_dir_x * sin(-rot_speed) + p->dir_y * cos(-rot_speed);
 		old_plane_x = p->plane_x;
 		p->plane_x = p->plane_x * cos(-rot_speed) - p->plane_y * sin(-rot_speed);
-		p->plane_y = old_plane_x * sin(-rot_speed) + p->plane_x * cos(-rot_speed);
+		p->plane_y = old_plane_x * sin(-rot_speed) + p->plane_y * cos(-rot_speed);
 	}
 	if (p->turn_right)
 	{
@@ -107,6 +107,6 @@ void	move_player(t_window *game)
 		p->dir_y = old_dir_x * sin(rot_speed) + p->dir_y * cos(rot_speed);
 		old_plane_x = p->plane_x;
 		p->plane_x = p->plane_x * cos(rot_speed) - p->plane_y * sin(rot_speed);
-		p->plane_y = old_plane_x * sin(rot_speed) + p->plane_x * cos(rot_speed);
+		p->plane_y = old_plane_x * sin(rot_speed) + p->plane_y * cos(rot_speed);
 	}
 }

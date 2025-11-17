@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:58:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/11/17 13:08:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:17:15 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	set_dir(t_player *player, char **map)
 
 int	init_champs(t_window *game)
 {
-	set_dir(game->player, game->parsed_map->map);
-	// Ajoute ces lignes :
 	game->player->move_forward = 0;
 	game->player->move_backward = 0;
 	game->player->move_left = 0;
